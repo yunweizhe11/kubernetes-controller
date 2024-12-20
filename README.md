@@ -1,7 +1,6 @@
 # aliyun-clb-controller
 
 <img src="https://github.com/yunweizhe11/kubernetes-controller/blob/master/image/arch.jpg">
-## Install
 
 ## Building from source
 ```bash
