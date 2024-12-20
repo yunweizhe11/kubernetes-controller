@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: golang-service
+  labels:
+    app: golang-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: aliyun-collector-service
+  template:
+    metadata:
+      labels:
+        app: aliyun-collector-service
+    spec:
+      serviceAccountName: service-watch-aliyun-collector
+      containers:
+      - name: aliyun-collector-service
+        image: aliyun-clb-collector:latest
+        env:
+        - name: ACCESS_KEY_ID
+          value: "xxx"
+        - name: ACCESS_KEY_SECRET
+          value: "xx"
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - "ps aux | grep 'aliyun-clb-controller' | grep -v grep"
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 3

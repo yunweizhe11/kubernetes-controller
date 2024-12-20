@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: service-watch-aliyun-collector
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: service-watcher
+rules:
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["watch", "delete","list","get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: service-watcher-binding
+subjects:
+  - kind: ServiceAccount
+    name: service-watch-aliyun-collector
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: service-watcher
+  apiGroup: rbac.authorization.k8s.io
